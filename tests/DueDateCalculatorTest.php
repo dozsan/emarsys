@@ -21,13 +21,22 @@ final class DueDateCalculatorTest extends TestCase {
         ['2021-02-22 19:11:32', 24]
     ];
     
+    /**
+     * @return DueDateCalculator
+     */
+    private function dueDateCalculatorFactory(): DueDateCalculator {
+        return new DueDateCalculator([
+            '2021-02-18' => '2021-02-20'
+        ]);
+    }
+    
     public function testCalculateDueDateValid(): void {
         foreach (self::$validCase as $index => $item) {
             $input           = new \DateTime($item[0]);
             $turnaroundHours = $item[1];
             $output          = new \DateTime($item[2]);
             
-            $class = new DueDateCalculator();
+            $class = $this->dueDateCalculatorFactory();
             $this->assertEquals(
                 $output,
                 $class->CalculateDueDate($input, $turnaroundHours),
@@ -40,11 +49,11 @@ final class DueDateCalculatorTest extends TestCase {
         foreach (self::$invalidCase as $index => $item) {
             $input           = new \DateTime($item[0]);
             $turnaroundHours = $item[1];
-    
-            $class = new DueDateCalculator();
+            
+            $class = $this->dueDateCalculatorFactory();
             try {
                 $class->CalculateDueDate($input, $turnaroundHours);
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->assertInstanceOf(\InvalidArgumentException::class, $e);
             }
         }

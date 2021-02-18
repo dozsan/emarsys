@@ -30,9 +30,20 @@ class DueDateCalculator {
      *
      * @var string[]
      */
-    private array $customHolidayMap = [
-        '2021-02-18' => '2021-02-20'
-    ];
+    private array $customHolidayMap = [];
+    
+    /**
+     * DueDateCalculator constructor.
+     *
+     * @param array  $customHolidayMap
+     * @param string $workingHourStart
+     * @param string $workingHourEnd
+     */
+    public function __construct(array $customHolidayMap = [], string $workingHourStart = '09:00:00', string $workingHourEnd = '17:00:00') {
+        $this->customHolidayMap             = $customHolidayMap;
+        $this->defaultWorkingHours['start'] = $workingHourStart;
+        $this->defaultWorkingHours['end']   = $workingHourEnd;
+    }
     
     /**
      * @param DateTime $dateTime
@@ -56,11 +67,11 @@ class DueDateCalculator {
      */
     public function info(): void {
         $info   = [];
-        $info[] .= "=======================================================";
+        $info[] .= "\n=======================================================";
         $info[] .= "Info panel\n";
-        $info[] .= sprintf("Working hours: %s - %s", $this->defaultWorkingHours['start'], $this->defaultWorkingHours['end']);
-        $info[] .= "Non working day indexes: " . implode(', ', $this->defaultHolidayNumber) . "\n";
-        $info[] .= "Custom non working days: ";
+        $info[] .= sprintf("Munkaidő kezdete és vége: %s - %s", $this->defaultWorkingHours['start'], $this->defaultWorkingHours['end']);
+        $info[] .= "Munkszüneti napok (index): " . implode(', ', $this->defaultHolidayNumber) . "\n";
+        $info[] .= "Áthelyezett munkanapok: ";
         foreach ($this->customHolidayMap as $nonWorkingDay => $workingDay) {
             $info[] .= sprintf("\t %s => %s", $nonWorkingDay, $workingDay);
         }
@@ -172,9 +183,11 @@ class DueDateCalculator {
     }
 }
 
-// $dueDateCalculator = new DueDateCalculator();
-// $dueDateCalculator->info();
-/*
+$dueDateCalculator = new DueDateCalculator([
+    '2021-02-18' => '2021-02-20'
+]);
+$dueDateCalculator->info();
+
 $dateTime       = new DateTime('2021-02-17 14:12');
 $turnaroundHour = 16;
 $dueDateTime    = $dueDateCalculator->CalculateDueDate($dateTime, $turnaroundHour);
@@ -183,4 +196,4 @@ echo strtr("\n==========\nInput: {input}\nTurnaround Hours: {th}\nOutput: {outpu
     '{th}'     => $turnaroundHour,
     '{output}' => $dueDateTime->format('Y-m-d H:i:s')
 ]);
-*/
+
