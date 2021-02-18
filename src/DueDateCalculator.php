@@ -172,7 +172,7 @@ class DueDateCalculator {
     }
 }
 
-$dueDateCalculator = new DueDateCalculator();
+// $dueDateCalculator = new DueDateCalculator();
 // $dueDateCalculator->info();
 /*
 $dateTime       = new DateTime('2021-02-17 14:12');
