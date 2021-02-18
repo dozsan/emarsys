@@ -12,6 +12,7 @@ class DueDateCalculator {
     
     /**
      * DateTime class -> format -> N
+     *
      * @var int[]
      */
     private array $defaultHolidayNumber = [6, 7];
@@ -47,7 +48,6 @@ class DueDateCalculator {
         if (0 < $turnaroundHour) {
             $dateTime = $this->calculateTurnaroundHour($dateTime, $turnaroundHour);
         }
-//        echo $dateTime->format(self::DEFAULT_DATE_TIME_FORMAT) . "\n";
         return $this->calculateOutput($dateTime);
     }
     
@@ -78,7 +78,7 @@ class DueDateCalculator {
         $turnaroundSeconds    = $turnaroundHour * 60 * 60;
         $workingTimeInSeconds = $this->transformToSeconds('end') - $this->transformToSeconds('start');
         
-        $while    = true;
+        $while = true;
         do {
             if (!$this->guessHoliday($dateTime)) {
                 $startDate = $dateTime;
@@ -125,7 +125,7 @@ class DueDateCalculator {
      * @return bool
      */
     private function workTimeValidate(DateTime $dateTime): bool {
-        if($this->guessHoliday($dateTime)){
+        if ($this->guessHoliday($dateTime)) {
             return false;
         }
         $timestampStart = $this->setTime($dateTime, 'start')->getTimestamp();
@@ -173,7 +173,8 @@ class DueDateCalculator {
 }
 
 $dueDateCalculator = new DueDateCalculator();
-$dueDateCalculator->info();
+// $dueDateCalculator->info();
+/*
 $dateTime       = new DateTime('2021-02-17 14:12');
 $turnaroundHour = 16;
 $dueDateTime    = $dueDateCalculator->CalculateDueDate($dateTime, $turnaroundHour);
@@ -182,4 +183,4 @@ echo strtr("\n==========\nInput: {input}\nTurnaround Hours: {th}\nOutput: {outpu
     '{th}'     => $turnaroundHour,
     '{output}' => $dueDateTime->format('Y-m-d H:i:s')
 ]);
-
+*/
